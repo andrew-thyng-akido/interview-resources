@@ -7,35 +7,28 @@ interface CoffeeOrderFormProps {
 }
 
 export function CoffeeOrderForm({ customerName }: CoffeeOrderFormProps) {
-  // Redundant state - storing size in multiple ways
   const [size, setSize] = useState("medium")
   const [milk, setMilk] = useState("whole")
   const [sugar, setSugar] = useState(0)
   const [temperature, setTemperature] = useState("hot")
 
-  // Derived state that shouldn't exist
   const [orderReady, setOrderReady] = useState(false)
   const [totalPrice, setTotalPrice] = useState(0)
 
-  // Bean data
   const [beans, setBeans] = useState<Bean[]>([])
   const [selectedBean, setSelectedBean] = useState<Bean | null>(null) // BAD: Should just be ID
   const [isLoadingBeans, setIsLoadingBeans] = useState(true)
 
-  // Loading and error states with race condition potential
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
 
-  // Too much state
   const [formSubmitted, setFormSubmitted] = useState(false)
   const [clickCount, setClickCount] = useState(0)
 
-  // BAD: Resetting state when props change - could cause issues
   const [currentCustomer, setCurrentCustomer] = useState(customerName)
 
   useEffect(() => {
     if (customerName !== currentCustomer) {
-      // Reset all form state when customer changes
       setSize("medium")
       setMilk("whole")
       setSugar(0)
@@ -50,17 +43,14 @@ export function CoffeeOrderForm({ customerName }: CoffeeOrderFormProps) {
     }
   }, [customerName, currentCustomer])
 
-  // Bug: This will cause an error initially - missing dependency
   useEffect(() => {
-    // This should derive if order is ready, not use useEffect
     if (size && milk && temperature && selectedBean) {
       setOrderReady(true)
     } else {
       setOrderReady(false)
     }
-  }, [size, milk, temperature]) // Missing selectedBean in deps - BUG!
+  }, [size, milk, temperature])
 
-  // Misuse of useEffect - calculating derived state
   useEffect(() => {
     let price = 0
     if (size === "small") price += 3
@@ -72,7 +62,6 @@ export function CoffeeOrderForm({ customerName }: CoffeeOrderFormProps) {
     setTotalPrice(price)
   }, [size, milk, sugar, temperature])
 
-  // Race condition: multiple async operations without proper coordination
   useEffect(() => {
     setIsLoadingBeans(true)
     setLoading(true)
@@ -88,13 +77,11 @@ export function CoffeeOrderForm({ customerName }: CoffeeOrderFormProps) {
         setIsLoadingBeans(false)
       })
 
-    // This setTimeout creates a race condition
     setTimeout(() => {
       setLoading(false)
-    }, 300) // Might finish before fetch completes
+    }, 300)
   }, [])
 
-  // Unnecessary useEffect - should be derived
   useEffect(() => {
     if (selectedBean) {
       setBeanName(selectedBean.name)
@@ -105,16 +92,22 @@ export function CoffeeOrderForm({ customerName }: CoffeeOrderFormProps) {
     setSize(newSize)
   }
 
-  const [beanName, setBeanName] = useState("") // Duplicate state
+  const [beanName, setBeanName] = useState("")
 
   const handleSubmit = () => {
     setFormSubmitted(true)
-    setClickCount(clickCount + 1) // Unnecessary state
+    setClickCount(clickCount + 1)
     alert(`Order placed for ${customerName}! Total: $${totalPrice.toFixed(2)}`)
   }
 
-  // Complicated inline logic that should be extracted
-  const canSubmit = size !== "" && milk !== "" && temperature !== "" && selectedBean !== null && !loading && !isLoadingBeans && beans.length > 0 && (size === "small" || size === "medium" || size === "large")
+  const canSubmit = size !== ""
+    && milk !== ""
+    && temperature !== ""
+    && selectedBean !== null
+    && !loading
+    && !isLoadingBeans
+    && beans.length > 0
+    && (size === "small" || size === "medium" || size === "large")
 
   if (loading || isLoadingBeans) {
     return <div>Loading...</div>
@@ -129,7 +122,6 @@ export function CoffeeOrderForm({ customerName }: CoffeeOrderFormProps) {
       <h1>Coffee Order Form</h1>
       <p className="text-lg mb-4">Ordering for: <strong>{customerName}</strong></p>
 
-      {/* Redundant JSX */}
       <div>
         <h2>Select Your Coffee</h2>
         <p>Choose your preferences below</p>
