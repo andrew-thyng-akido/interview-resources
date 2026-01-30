@@ -1,6 +1,5 @@
 import "./index.css"
 import { useState } from "react"
-import CoffeeOrderForm from "./CoffeeOrderForm"
 
 export function App() {
   const [customerName, setCustomerName] = useState("")
@@ -11,10 +10,6 @@ export function App() {
     if (customerName.trim()) {
       setShowForm(true)
     }
-  }
-
-  if (showForm) {
-    return <CoffeeOrderForm customerName={customerName} />
   }
 
   return (
