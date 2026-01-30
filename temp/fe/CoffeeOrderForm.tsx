@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import type { Bean } from "./index"
+import type { Bean } from "../../FE/react-anti-patterns/src/index"
 import OrderSummary from "./OrderSummary"
 
 interface CoffeeOrderFormProps {
@@ -16,7 +16,7 @@ export function CoffeeOrderForm({ customerName }: CoffeeOrderFormProps) {
   const [totalPrice, setTotalPrice] = useState(0)
 
   const [beans, setBeans] = useState<Bean[]>([])
-  const [selectedBean, setSelectedBean] = useState<Bean | null>(null) // BAD: Should just be ID
+  const [selectedBean, setSelectedBean] = useState<Bean | null>(null)
   const [isLoadingBeans, setIsLoadingBeans] = useState(true)
 
   const [loading, setLoading] = useState(false)

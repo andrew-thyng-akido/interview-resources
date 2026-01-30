@@ -1,15 +1,6 @@
 import { useState, useEffect } from "react"
+import type { Bean } from "../../FE/react-anti-patterns/src/index"
 import OrderSummary from "./OrderSummary"
-
-export type Bean = {
-  id: number
-  name: string
-  roast: string
-  amountAvailable: number
-  price: number
-  origin: string
-  notes: string
-}
 
 interface CoffeeOrderFormProps {
   customerName: string
@@ -25,7 +16,7 @@ export function CoffeeOrderForm({ customerName }: CoffeeOrderFormProps) {
   const [totalPrice, setTotalPrice] = useState(0)
 
   const [beans, setBeans] = useState<Bean[]>([])
-  const [selectedBean, setSelectedBean] = useState<Bean | null>(null) // BAD: Should just be ID
+  const [selectedBean, setSelectedBean] = useState<Bean | null>(null)
   const [isLoadingBeans, setIsLoadingBeans] = useState(true)
 
   const [loading, setLoading] = useState(false)
@@ -33,6 +24,8 @@ export function CoffeeOrderForm({ customerName }: CoffeeOrderFormProps) {
 
   const [formSubmitted, setFormSubmitted] = useState(false)
   const [clickCount, setClickCount] = useState(0)
+
+
 
   const [currentCustomer, setCurrentCustomer] = useState(customerName)
 
@@ -219,6 +212,7 @@ export function CoffeeOrderForm({ customerName }: CoffeeOrderFormProps) {
       </div>
 
       <OrderSummary
+        title={"Your Coffee Order"}
         size={size}
         milk={milk}
         sugar={sugar}
@@ -227,7 +221,7 @@ export function CoffeeOrderForm({ customerName }: CoffeeOrderFormProps) {
       />
 
       <button
-        onClick={handleSubmit}
+        onClick={() => handleSubmit()}
         disabled={!canSubmit}
       >
         {canSubmit ? "Place Order" : "Please complete all fields"}

@@ -1,5 +1,11 @@
-// Helper component with issues
-function OrderSummary({ size, milk, sugar, temperature, beanType }: any) {
+function OrderSummary(
+  size: string,
+  milk: string,
+  sugar: string,
+  temperature: string,
+  beanType: string,
+  title?: string
+) {
   return (
     <div>
       <h3>Order Summary</h3>
