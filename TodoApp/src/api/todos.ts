@@ -1,3 +1,9 @@
+/* ⚠️ This file simulates a backend API for managing todos using localStorage.
+
+      You should not need to modify this file for the basic functionality of the app,
+      but feel free to enhance it with additional features or error handling as you see fit.
+*/
+
 const STORAGE_KEY = 'todos'
 
 export interface Todo {

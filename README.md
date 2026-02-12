@@ -6,7 +6,16 @@ This repository is a collection of resources, exercises, and notes for technical
 
 Includes:
 - Frontend React anti-pattern code review exercises
-- Example questions and solutions
-- Notes and guides for interview preparation
+- Backend Node.js anti-pattern code review exercises
+- Frontend Todo app implementation exercises
 
-More content coming soon.
+## Todo App Exercise
+```sh
+cd TodoApp
+
+npm install
+
+npm run dev
+
+READ - SEARCH-TICKET.md for instructions on how to complete the exercise.
+```
